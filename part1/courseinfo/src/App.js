@@ -2,42 +2,59 @@ import React from 'react'
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
 
   return (
     <div>
       <Header course={course} />
-      <Content parts={[[part1, exercises1], [part2, exercises2], [part3, exercises3]]} />
-      <Total exercises={[exercises1, exercises2, exercises3]} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
 
 const Header = ({ course }) => {
-  return <h1>{course}</h1>
+  return (
+    <h1>{course}</h1>
+  )
 }
 
 const Content = ({ parts }) => {
   return (
     <div>
-      <Part title={parts[0][0]} number={parts[0][1]} />
-      <Part title={parts[1][0]} number={parts[1][1]} />
-      <Part title={parts[2][0]} number={parts[2][1]} />
+      {/* you can assume that there are always three items */}
+      <Part title={parts[0].name} number={parts[0].exercises} />
+      <Part title={parts[1].name} number={parts[1].exercises} />
+      <Part title={parts[2].name} number={parts[2].exercises} />
     </div>
   )
 }
 
 const Part = (props) => {
-  return <p>{props.title} {props.number}</p>
+  return (
+    <p>{props.title} {props.number}</p>
+  )
 }
 
-const Total = ({ exercises }) => {
-  return <p>Number of exercises {exercises.reduce((a, b) => a + b)}</p>
+const Total = ({ parts }) => {
+  const exercises = parts.map(part => part.exercises)
+  
+  return (
+    <p>Number of exercises {exercises.reduce((a, b) => a + b)}</p>
+  )
 }
 
 export default App
