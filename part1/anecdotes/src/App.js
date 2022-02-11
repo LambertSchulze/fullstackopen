@@ -12,18 +12,51 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
+
+  const voteForAnecdote = () => {
+    const newPoints = [ ...points ];
+    newPoints[selected] += 1
+    setPoints(newPoints)
+    }
 
   const nextAnecdote = () => {
-    setSelected(Math.floor(Math.random() * (anecdotes.length + 1)))
+    const randomIndex = Math.floor(Math.random() * (anecdotes.length)); 
+    setSelected(randomIndex);
   }
 
   return (
-    <div>
-      {anecdotes[selected]}
-      <div>
-        <button onClick={() => nextAnecdote()}>next anecdote</button>
-      </div>
-    </div>
+    <main>
+      <section>
+        <h1>Anecdote of the day</h1>
+        <Anecdote
+          anecdote={anecdotes[selected]}
+          votes={points[selected]}
+        />
+        <div>
+          <button onClick={() => voteForAnecdote()}>vote</button>
+          <button onClick={() => nextAnecdote()}>next anecdote</button>
+        </div>
+      </section>
+      <section>
+        <h2>Anecdote with most votes</h2>
+        <Anecdote
+          anecdote={anecdotes[points.findIndex(i => i === points.reduce((a, b) => Math.max(a, b)))]}
+          votes={points.reduce((a, b) => Math.max(a, b))}
+        />
+      </section>
+    </main>
+  )
+}
+
+const Anecdote = (props) => {
+  return (
+    <figure>
+      <blockquote>
+        {props.anecdote}
+      </blockquote>
+      <figcaption>has {props.votes} votes</figcaption>
+    </figure>
   )
 }
 
