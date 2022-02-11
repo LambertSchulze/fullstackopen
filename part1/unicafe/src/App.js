@@ -31,11 +31,17 @@ const FeedbackInput = (props) => {
 }
 
 const FeedbackStatistics = (props) => {
+  const feedbackCount = Object.values(props).reduce((a, b) => a + b)
+  const feedbackAverage = (props.good - props.bad) / feedbackCount
+
   return (
     <div>
       good {props.good}<br/>
       neutral {props.neutral}<br/>
-      bad {props.bad}
+      bad {props.bad}<br/>
+      all {feedbackCount}<br/>
+      average {feedbackAverage ?? 0}<br/>
+      positive {props.good / feedbackCount * 100}
     </div>
   )
 }
