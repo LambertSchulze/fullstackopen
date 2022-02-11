@@ -2,23 +2,31 @@ import React from 'react'
 
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
+  return <Course course={course} />
+}
+
+const Course = ({ course }) => {
   return (
     <div>
       <Header name={course.name} />
@@ -37,10 +45,9 @@ const Header = ({ name }) => {
 const Content = ({ parts }) => {
   return (
     <div>
-      {/* you can assume that there are always three items */}
-      <Part title={parts[0].name} number={parts[0].exercises} />
-      <Part title={parts[1].name} number={parts[1].exercises} />
-      <Part title={parts[2].name} number={parts[2].exercises} />
+      {parts.map(part => 
+        <Part key={part.id} title={part.name} number={part.exercises} />
+      )}
     </div>
   )
 }
@@ -55,7 +62,7 @@ const Total = ({ parts }) => {
   const exercises = parts.map(part => part.exercises)
   
   return (
-    <p>Number of exercises {exercises.reduce((a, b) => a + b)}</p>
+    <b>total of {exercises.reduce((a, b) => a + b)} exercises</b>
   )
 }
 
