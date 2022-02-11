@@ -15,7 +15,7 @@ const App = () => {
         giveBadFeedback={setBad}
       />  
       <h2>statistics</h2>
-      <FeedbackStatistics good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
@@ -30,9 +30,11 @@ const FeedbackInput = (props) => {
   )
 }
 
-const FeedbackStatistics = (props) => {
+const Statistics = (props) => {
   const feedbackCount = Object.values(props).reduce((a, b) => a + b)
   const feedbackAverage = (props.good - props.bad) / feedbackCount
+
+  if (!feedbackCount) return <div>No feedback given</div>
 
   return (
     <div>
