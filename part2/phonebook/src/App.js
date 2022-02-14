@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+import Filter from './components/Filter'
+import NewContactForm from './components/NewContactForm'
+import ContactList from './components/ContactList'
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -41,37 +45,24 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-
-      <label>search
-        <input type="search" value={searchTerm} onChange={handleSearchChange} />
-      </label>
+      <Filter
+        searchTerm={searchTerm}
+        onChange={handleSearchChange}
+      />
 
       <h2>new Contact</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>name
-            <input type="text" value={newName} onChange={handleNameChange} required pattern="[a-Z]" placeholder="Mike Wazowski"/>
-          </label>
-        </div>
-        <div>
-          <label>number
-            <input type="tel" value={newNumber} onChange={handleNumberChange} required placeholder="+49-30-12345678" />
-          </label>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <NewContactForm
+        onSubmit={handleSubmit}
+        nameValue={newName}
+        nameChange={handleNameChange}
+        numberValue={newNumber}
+        numberChange={handleNumberChange}
+      />
       
       <h2>Numbers</h2>
-        <ul>
-          {persons
-            .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map((p, index) => 
-              <li key={index}>{p.name} {p.number}</li>  
-            )
-          }
-        </ul>
+      <ContactList
+        contacts={persons.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))}
+      />
     </div>
   )
 }
